@@ -72,106 +72,70 @@ function filtroSepia() {
 }
     </pre>
     
-    <h2>3. Gerador de Arte Aleatória</h2>
-    <pre>
+    <h2>3. Questionário</h2>
+    <p>Por favor, preencha o questionário abaixo e clique em "Enviar" para enviar suas respostas para o e-mail renatovalenteprof43@outlook.com.</p>
+    <form action="mailto:renatovalenteprof43@outlook.com" method="post" enctype="text/plain">
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="Nome" required><br><br>
+
+        <label for="email">E-mail:</label><br>
+        <input type="email" id="email" name="Email" required><br><br>
+
+        <label>1.O codigo esta correto? coloque as observaçoes onde esta erro?</label><br>
+          <label>let img;
+function preload() {
+  img = loadImage('https://picsum.photos/400/300');
+}
 function setup() {
-  createCanvas(600, 400);
-  noLoop();
+  createCanvas(400, 300);
+  image(img, 0, 0);
 }
-function draw() {
-  background(0);
-  for (let i = 0; i < 10; i++) {
-    let x = random(width), y = random(height), size = random(20, 80);
-    fill(random(255), random(255), random(255), 150);
-    noStroke();
-    ellipse(x, y, size, size);
+function keyPressed() {
+  if (key === '1') filtroPB();
+  if (key === '2') filtroSepia();
+
+function filtroPB() {
+  loadPixels();
+  for (let i = 0; i < pixels.length; i += 4) {
+    let avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+    pixels[i] = pixels[i + 1] = pixels[i + 2] = avg;
   }
+  updatePixels();
 }
-function mousePressed() {
-  redraw();
-}
-    </pre>
-    
-    <h2>4. Câmera com Reconhecimento de Rosto</h2>
-    <pre>
-let video;
-let detector;
-function setup() {
-  createCanvas(640, 480);
-  video = createCapture(VIDEO);
-  video.size(width, height);
-  video.hide();
-  detector = ml5.faceApi(video, { withLandmarks: true }, modelLoaded);
-}
-function modelLoaded() {
-  detector.detect(gotResults);
-}
-function gotResults(err, results) {
-  if (err) return;
-  image(video, 0, 0);
-  if (results.length > 0) {
-    let face = results[0].landmarks;
-    fill(255, 0, 0);
-    for (let pt of face.positions) {
-      ellipse(pt._x, pt._y, 5, 5);
-    }
+function filtroSepia() {
+  loadPixels();
+  for (let i = 0; i < pixels.length; i += 4) {
+    let r = pixels[i], g = pixels[i + 1], b = pixels[i + 2];
+    pixels[i] = r * 0.393 + g * 0.769 + b * 0.189;
+    pixels[i + 1] = r * 0.349 + g * 0.686 + b * 0.168;
+    pixels[i + 2] = r * 0.272 + g * 0.534 + b * 0.131;
   }
-  detector.detect(gotResults);
+  updatePixels();
 }
-    </pre>
-    
-    <h2>5. Relógio Digital Animado</h2>
-    <pre>
-function setup() {
-  createCanvas(400, 200);
-  textAlign(CENTER, CENTER);
-  textSize(32);
-}
-function draw() {
-  background(0);
-  fill(255);
-  let h = hour();
-  let m = minute();
-  let s = second();
-  text(nf(h,2) + ":" + nf(m,2) + ":" + nf(s,2), width/2, height/2);
-}
-    </pre>
-    
-    <h2>6. Simulador de Partículas</h2>
-    <pre>
-let particles = [];
-function setup() {
-  createCanvas(600, 400);
-}
-function draw() {
-  background(0);
-  for (let p of particles) {
-    p.update();
-    p.show();
-  }
-}
-function mousePressed() {
-  particles.push(new Particle(mouseX, mouseY));
-}
-class Particle {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.vx = random(-2, 2);
-    this.vy = random(-2, 2);
-    this.alpha = 255;
-  }
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.alpha -= 5;
-  }
-  show() {
-    fill(255, this.alpha);
-    noStroke();
-    ellipse(this.x, this.y, 10);
-  }
-}
-    </pre>
+    </label>
+        <input type="text" name="Projeto_Preferido"><br><br>
+
+        <label>2. Qual sua experiência com programação?</label><br>
+        <select name="Experiencia">
+            <option value="Iniciante">Iniciante</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+        </select><br><br>
+
+        <label>3. Quais são as funçoes que voce utiliza no p5?</label><br>
+        <input type="text" name="Linguagem_Preferida"><br><br>
+
+        <label>4. Qual recurso do p5.js você acha mais útil?</label><br>
+        <input type="text" name="Recurso_p5"><br><br>
+
+        <label>5. O que você melhoraria nos projetos apresentados?</label><br>
+        <textarea name="Sugestao" rows="4" cols="50"></textarea><br><br>
+
+        <label>6. o que são variaveis e como aprsenta no p5?</label><br>
+        <input type="radio" name="Mais_Conteudo" value="Sim"> Sim<br>
+        <input type="radio" name="Mais_Conteudo" value="Não"> Não<br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>
